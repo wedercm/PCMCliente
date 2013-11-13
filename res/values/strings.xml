@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Pedidos e Cardápio!</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="tvNomeRestaurante">TW Restaurante</string>
+    <string name="btnCardapio">Cardápio</string> 
+    <string name="tituloItensActivity">Itens</string>
+    <string name="tituloItemActivity">Cervejas</string>
+    <string name="action_ValorTotal">Valor Total</string> 
+    <string name="action_chamarGarcom">Chamar Garçom</string> 
+
+    
+    
+    <!-- STRINGS ACTIVITY VALOR TOTAL -->
+    <string name="textView_Couvert">Couvert</string>
+    <string name="textView_ValorItens">Valor Itens</string>
+   	<string name="textView_Item">Item</string>
+   	<string name="texteView_Quantidade">Quantidade</string>
+   	<string name="texteView_ValorUnitario">Valor Unitário</string>
+   	<string name="texteView_ValorTotal">Total</string>
+   	<string name="texteView_ValorCouvertPessoa">Valor p/ Pessoa</string>
+   	<string name="texteView_ValorTotalConta">Valor da Conta</string>
+   	<string name="texteView_Pedidos">Pedidos</string>
+   	<string name="texteView_DezPorcentoGarcom">10% Garçom</string>
+   	<string name="texteView_Adicionais">Adicionais</string>
+    
+</resources>
