@@ -1,17 +1,9 @@
 package br.com.tw.pcmcliente;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,8 +22,6 @@ public class ItensActivity extends Activity{
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
 	{
-		
-
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_item);
 		
@@ -59,46 +49,6 @@ public class ItensActivity extends Activity{
 	    		}	    	   
 	    	   
 		});
-		
-		RequestQueue queue = Volley.newRequestQueue(this);
-		//String url = "http://pipes.yahooapis.com/pipes/pipe.run?_id=giWz8Vc33BG6rQEQo_NLYQ&_render=json";
-		String url = "http://192.168.1.100/WebServicePCM/produtos/Comida";
-		JsonObjectRequest jsObjRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-
-			@Override
-			public void onResponse(JSONObject response) {
-				Log.i("TESTE", response.toString());
-				parseJSON(response);
-				findViewById(R.id.progressBar1).setVisibility(View.GONE);
-				Log.i("TESTE", "TESTE");
-			}
-		}, new Response.ErrorListener() {
-
-			@Override
-			public void onErrorResponse(VolleyError error) {
-				// TODO Auto-generated method stub
-				Log.e("Erro!", "Erro!");
-
-			}
-		});
-
-		queue.add(jsObjRequest);
-	}
-	private void parseJSON(JSONObject json){
-        try{
-        	JSONObject value = json.getJSONObject("");
-            JSONArray items = value.getJSONArray("nomeProduto");
-            for(int i=0;i<items.length();i++){
-
-                    JSONObject item = items.getJSONObject(i);
-                    new ExibirMensagem("TESTE", item.optString("nomeProduto"), ItensActivity.this);                                   
-            }
-        }
-        catch(Exception e){
-            e.printStackTrace();
-        }
-
-
     }
 	 
 	@Override
