@@ -77,6 +77,7 @@ public class ItensActivity extends Activity{
 			@Override
 			public void onErrorResponse(VolleyError error) {
 				// TODO Auto-generated method stub
+				Log.e("Erro!", "Erro!");
 
 			}
 		});
