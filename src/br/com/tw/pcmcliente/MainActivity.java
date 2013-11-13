@@ -17,6 +17,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+/**
+ * @author Weder Cabral Mendes
+ * Classe utilizada para criar e controlar a tela inicial.
+ */
 public class MainActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -30,7 +34,11 @@ public class MainActivity extends Activity {
 		(Request.Method.GET, url, null, new Response.Listener<JSONObject>() 
 			{
 
-				@Override
+				/**
+				 * 
+				 * @param response(JSONObject)
+				 */
+				@Override								
 				public void onResponse(JSONObject response) 
 				{
 					getNomeItem(response);
@@ -47,6 +55,10 @@ public class MainActivity extends Activity {
 		queue.add(jsObjRequest);	
 	}	
 
+	/**
+	 * Método utilizado para pegar apenas o nomes do itens do JSONArray.
+	 * @param json
+	 */
 	private void getNomeItem(JSONObject json)
 	{    
 		try
@@ -54,22 +66,30 @@ public class MainActivity extends Activity {
 	    	JSONArray itens = json.getJSONArray("itens");
 	        for(int i=0;i<itens.length();i++)
 	        {
-	        		Log.i("ITEM",itens.getJSONObject(i).getString("nomeItem"));        		
+	        	Log.i("ITEM",itens.getJSONObject(i).getString("nomeItem"));        		
 	        }
 		}catch(Exception e)
 		{
 			e.printStackTrace();
     	}
 	}
-	
-	
-	
+	/**
+	 * Método responsávl por controlar o botão "Cardápio", ao clicar nesse botão 
+	 * a activity de itens abrirá.
+	 * @param v(View)
+	 */
 	public void btnCardapio(View v)
 	{
 		Intent intent = new Intent(this, ItensActivity.class);
 		startActivity(intent);
 	}
 	
+	/**
+	 * Método resposável por criar os menus do ActionBar, os itens que irá aparecer nesse menu
+	 * estão definitos no arquivo R.menu.main.
+	 * @param menu (Menu)
+	 * @return retorna o menu criado com nossos itens(ACTIONS).
+	 */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -77,6 +97,13 @@ public class MainActivity extends Activity {
 		getMenuInflater().inflate(R.menu.main, menu);
 		return super.onCreateOptionsMenu(menu);
 	}	
+
+	/**
+	 * Método responsável por controlar as ações dos itens(ACTIONS) do Menu.
+	 * Quando o usuário clicar em um dos itens(ACTIONS), ele dispara uma ação. Que irá depender
+	 * do item clicado.
+	 * @param item (MenuItem)
+	 */
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item)
 	{
