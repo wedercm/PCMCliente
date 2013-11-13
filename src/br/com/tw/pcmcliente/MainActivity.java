@@ -19,37 +19,39 @@ import android.view.View;
 
 public class MainActivity extends Activity {
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState)
+	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
 		RequestQueue queue = Volley.newRequestQueue(this);
 		String url = "http://192.168.3.97:8080/WebServicePCM/itens/listarTodos";
-		JsonObjectRequest jsObjRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+		JsonObjectRequest jsObjRequest = new JsonObjectRequest
+		(Request.Method.GET, url, null, new Response.Listener<JSONObject>() 
+			{
 
-			@Override
-			public void onResponse(JSONObject response) {
-				Log.i("TESTE", response.toString());
-				getNomeItem(response);
-				findViewById(R.id.progressBarMain).setVisibility(View.GONE);
+				@Override
+				public void onResponse(JSONObject response) 
+				{
+					getNomeItem(response);
+					findViewById(R.id.progressBarMain).setVisibility(View.GONE);
+				}
+			}, new Response.ErrorListener() 
+			{
+				@Override
+				public void onErrorResponse(VolleyError error) {
+	
+				}
 			}
-		}, new Response.ErrorListener() {
-
-			@Override
-			public void onErrorResponse(VolleyError error) {
-
-			}
-		});
-		
-
+		);
 		queue.add(jsObjRequest);	
-		}	
+	}	
 
 	private void getNomeItem(JSONObject json)
 	{    
 		try
 		{
-	    	   JSONArray itens = json.getJSONArray("itens");
+	    	JSONArray itens = json.getJSONArray("itens");
 	        for(int i=0;i<itens.length();i++)
 	        {
 	        		Log.i("ITEM",itens.getJSONObject(i).getString("nomeItem"));        		
