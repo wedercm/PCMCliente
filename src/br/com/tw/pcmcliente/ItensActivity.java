@@ -1,9 +1,13 @@
 package br.com.tw.pcmcliente;
 
 
+import java.util.ArrayList;
+
 import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,6 +16,7 @@ import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.TextView;
 import br.com.tw.adapter.AdapterListViewItem;
+import br.com.tw.adapter.DbAdapter;
 import br.com.tw.model.ExecutaActions;
 import br.com.tw.model.ExibirMensagem;
 
@@ -26,7 +31,20 @@ public class ItensActivity extends Activity{
 		setContentView(R.layout.activity_item);
 		
 		listViewItem = (ListView) findViewById(R.id.listItem);
-		String [] itens = new String[] {"Cerveja", "Doces", "Vinhos", "Frios", "Comida", "Caldos"};
+		ArrayList<String> itens = new ArrayList<String>(); 
+		DbAdapter db = new DbAdapter(getApplicationContext());
+		db.open();
+		
+		Cursor cursor = db.consultarTodosItens();
+		String consulta;
+		if(cursor != null){
+			while(cursor.moveToNext()){
+				consulta = cursor.getString(cursor.getColumnIndex(DbAdapter.COLUNA_DESCRICAO_ITENS));
+				itens.add(consulta);
+			}
+		}
+		db.close();
+		cursor.close();
 		
 		adapter = new AdapterListViewItem(this, itens);
 		listViewItem.setAdapter(adapter);

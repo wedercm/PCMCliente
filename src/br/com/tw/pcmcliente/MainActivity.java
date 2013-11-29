@@ -8,10 +8,13 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+
+import br.com.tw.adapter.DbAdapter;
 import br.com.tw.model.ExecutaActions;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,6 +25,7 @@ import android.view.View;
  * Classe utilizada para criar e controlar a tela inicial.
  */
 public class MainActivity extends Activity {
+	@SuppressWarnings("static-access")
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -32,9 +36,7 @@ public class MainActivity extends Activity {
 		String url = "http://192.168.3.97:8080/WebServicePCM/itens/listarTodos";
 		JsonObjectRequest jsObjRequest = new JsonObjectRequest
 		(Request.Method.GET, url, null, new Response.Listener<JSONObject>() 
-			{
-
-				/**
+			{	/**
 				 * 
 				 * @param response(JSONObject)
 				 */
@@ -53,25 +55,59 @@ public class MainActivity extends Activity {
 			}
 		);
 		queue.add(jsObjRequest);	
+		
+		DbAdapter db = new DbAdapter(getApplicationContext());
+		db.open();
+		String consulta = null;	
+		Cursor cursor = db.consultarTodosItens();
+		db.criarItem(5, "Espetinho");
+		if(db.DATABASE_VERSION > 6){
+			db.criarItem(6, "DATABASE");
+		}
+		if(cursor!= null){
+			while(cursor.moveToNext()){
+				consulta = cursor.getString(cursor.getColumnIndex(DbAdapter.COLUNA_DESCRICAO_ITENS));
+				Log.w("CONSULTA BANCO:","Mostrando Itens: "+consulta);
+				
+			}			
+		}else Log.w("CONSULTA BANCO:","Não retornou nada");
+		
+		db.close();
+		cursor.close();
 	}	
 
 	/**
-	 * Método utilizado para pegar apenas o nomes do itens do JSONArray.
+	 * Método utilizado para pegar apenas o nomes do itens do JSONArray e adcionar ao banco de dados de ITENS.
 	 * @param json
 	 */
 	private void getNomeItem(JSONObject json)
-	{    
+	{    DbAdapter db = new DbAdapter(getApplicationContext());
+		db.open();		
+		int id = 0;
 		try
 		{
 	    	JSONArray itens = json.getJSONArray("itens");
 	        for(int i=0;i<itens.length();i++)
 	        {
-	        	Log.i("ITEM",itens.getJSONObject(i).getString("nomeItem"));        		
+	        	Log.i("ITEM",itens.getJSONObject(i).getString("nomeItem"));  
+	        	//db.criarItem(id, itens.getJSONObject(i).getString("nomeItem"));
+	        	id++;
 	        }
 		}catch(Exception e)
 		{
 			e.printStackTrace();
     	}
+		Cursor cursor = db.consultarTodosItens();	
+		String consulta;
+		if(cursor!= null){
+			while(cursor.moveToNext()){
+				consulta = cursor.getString(cursor.getColumnIndex(DbAdapter.COLUNA_DESCRICAO_ITENS));
+				Log.w("CONSULTA BANCO:","Mostrando Itens: "+consulta);
+			}			
+		}else Log.w("CONSULTA BANCO:","Não retornou nada");
+		
+		db.close();
+		cursor.close();
 	}
 	/**
 	 * Método responsávl por controlar o botão "Cardápio", ao clicar nesse botão 

@@ -1,5 +1,7 @@
 package br.com.tw.adapter;
 
+import java.util.ArrayList;
+
 import br.com.tw.pcmcliente.R;
 import com.android.volley.toolbox.ImageLoader;
  
@@ -13,17 +15,23 @@ import android.widget.TextView;
 
 public class AdapterListViewItem extends BaseAdapter {
 	private Activity activity;
-    private String[]data;
+    private ArrayList<String> data;
+    private String[] datas;
     private static LayoutInflater inflater=null;
  
     public AdapterListViewItem(Activity a, String[] itens) {
+        activity = a;
+        datas=itens;
+        inflater = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    }
+    public AdapterListViewItem(Activity a, ArrayList<String> itens) {
         activity = a;
         data=itens;
         inflater = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
  
     public int getCount() {
-        return data.length;
+        return data.size();
     }
  
     public Object getItem(int position) {
@@ -41,7 +49,7 @@ public class AdapterListViewItem extends BaseAdapter {
  
         TextView nomeItem = (TextView)vi.findViewById(R.id.texteViewNomeItem);
         
-        nomeItem.setText(data[position]);  
+        nomeItem.setText(data.get(position));  
        
         return vi;
     }
